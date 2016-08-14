@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements DataSingleton.TextChangeListener {
 
@@ -26,6 +27,10 @@ public class MainActivity extends AppCompatActivity implements DataSingleton.Tex
         newText = (TextView) findViewById(R.id.textview_2);
         thirdText = (TextView) findViewById(R.id.textview_3);
 
+       // oldText.setText(DataSingleton.getInstance().getMyText());
+       // newText.setText(DataSingleton.getInstance().getMyText());
+       // thirdText.setText(DataSingleton.getInstance().getMyText());
+
         //JobInfo jobInfo = new JobInfo.Builder(1, new ComponentName(getPackageName(),
         //        MyJobService.class.getName())).setPeriodic(5_000)
         //        .build();
@@ -35,30 +40,33 @@ public class MainActivity extends AppCompatActivity implements DataSingleton.Tex
         //        .build();
 
         PersistableBundle bundle1 = new PersistableBundle();
-        bundle1.putString("name", "Chuck D");
+        //bundle1.putString("frontman", "Chuck D");
+        bundle1.putString("member", "Chuck D");
         JobInfo jobInfo = new JobInfo.Builder(1, new ComponentName(getPackageName(),
                 LabJobService.class.getName()))
                 .setExtras(bundle1)
                 .setRequiresCharging(true)
-                .setPeriodic(3_000)
+                .setPeriodic(5_000)
                 .build();
 
         PersistableBundle bundle2 = new PersistableBundle();
-        bundle2.putString("name", "Flava Flav");
+        //bundle2.putString("jester", "Flava Flav");
+        bundle2.putString("member", "Flava Flav");
         JobInfo jobInfo2 = new JobInfo.Builder(2, new ComponentName(getPackageName(),
                 LabJobService.class.getName()))
                 .setExtras(bundle2)
                 .setRequiresCharging(true)
-                .setPeriodic(4_000)
+                .setPeriodic(7_000)
                 .build();
 
         PersistableBundle bundle3 = new PersistableBundle();
-        bundle3.putString("name", "Professor Griff");
+        //bundle3.putString("security", "Professor Griff");
+        bundle3.putString("member", "Professor Griff");
         JobInfo jobInfo3 = new JobInfo.Builder(3, new ComponentName(getPackageName(),
                 LabJobService.class.getName()))
                 .setExtras(bundle3)
-                .setRequiresDeviceIdle(false)
-                .setPeriodic(5_000)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPeriodic(9_000)
                 .build();
 
 
@@ -71,14 +79,17 @@ public class MainActivity extends AppCompatActivity implements DataSingleton.Tex
     }
 
     @Override
-    public void onTextChanged(String oldTextString) {
+    public void onTextChanged(String oldTextString, String newTextString) {
+
+        Toast.makeText(MainActivity.this, "Who we shoutin' out to?", Toast.LENGTH_SHORT).show();
         if(newText.getText().length() != 0){
             oldText.setText(oldTextString);
         }
-        if(thirdText.getText().length() != 0){
-            newText.setText(oldTextString);
-        }
-        newText.setText(DataSingleton.getInstance().getMyText());
-        thirdText.setText(DataSingleton.getInstance().getMyText());
+        //if(thirdText.getText().length() != 0){
+        //    newText.setText(newTextString);
+        //}
+        //oldText.setText(DataSingleton.getInstance().getMyText());
+        newText.setText("The new member is: " + DataSingleton.getInstance().getMyText2());
+        thirdText.setText(DataSingleton.getInstance().getMyText2());
     }
 }

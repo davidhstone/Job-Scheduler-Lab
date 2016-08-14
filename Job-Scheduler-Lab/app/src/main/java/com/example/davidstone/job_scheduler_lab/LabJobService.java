@@ -19,28 +19,37 @@ public class LabJobService extends JobService {
     public boolean onStartJob(final JobParameters jobParameters) {
 
         PersistableBundle bundle = jobParameters.getExtras();
-        final String memberName = bundle.getString("name");
+        final String member = bundle.getString("member");
+
+        //final String chuck = bundle.getString("frontman");
+        //final String flava = bundle.getString("jester");
+        //final String griff = bundle.getString("security");
 
         mTask = new AsyncTask<String, Void, String>() {
             @Override
             protected String doInBackground(String... string) {
 
-            //    Calendar calendar = Calendar.getInstance();
-            //    calendar.setTimeInMillis(System.currentTimeMillis());
-            //    SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
-            //    String newText = "New Text " + timeFormat.format(calendar.getTime());
+                String newText = member;
 
-                return string[0];
+            //   String oldText = "The man on the mic " + chuck;
+            //   String newText = "Shoutout to " + flava;
+            //   String thirdText = "The S1Ws " + griff;
+            //    return string[0];
+
+                return newText;
+
+            //    return oldText + newText + thirdText;
             }
 
             @Override
             protected void onPostExecute(String string) {
                 super.onPostExecute(string);
-                DataSingleton.getInstance().updateMyText(string);
+                DataSingleton.getInstance().updateMyText(string, string);
                 jobFinished(jobParameters, false);
             }
         };
-        mTask.execute(memberName);
+        //mTask.execute(memberName);
+        mTask.execute(member);
         return true;
     }
 
